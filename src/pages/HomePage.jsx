@@ -1,4 +1,6 @@
 import React from 'react';
+{/* import HeroBanner from '../components/HeroBanner.jsx';
+import PromoBanner from '../components/PromoBanner.jsx'; */}
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 
@@ -6,6 +8,8 @@ const HomePage = () => {
     return (
       <>
         <Header />
+           {/* <PromoBanner />
+           <HeroBanner /> */}
            <div className="bg-gradient-to-br from-yellow-50 to-pink-50 min-h-screen p-6">
              <div className="text-center py-12">
                <h1 className="text-5xl font-extrabold text-pink-700 mb-4">Welcome to Nutmeg Bijoux</h1>

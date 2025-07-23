@@ -4,14 +4,11 @@ export const AuthProvider = ({ children }) =>
 {
    const [isLoggedIn, setIsLoggedIn] = useState(false);
    useEffect(() => {
-   if (import.meta.env.DEV) {
-       localStorage.clear();
-                         }
    const storedLogin = localStorage.getItem('isLoggedIn');
-    //  setIsLoggedIn(storedLogin === 'true'); }, []);
-        if (storedLogin === 'true') 
+        setIsLoggedIn(storedLogin === 'true'); }, []);
+      {/*  if (storedLogin === 'true') 
           { setIsLoggedIn(true); }
-                  }, []); 
+                  }, []); */} 
    const login = () => {
            setIsLoggedIn(true);
            localStorage.setItem('isLoggedIn', 'true');

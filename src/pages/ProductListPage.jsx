@@ -1,12 +1,19 @@
 import React, { useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../context/AuthContext';
 import { CartContext } from '../context/CartContext';
 import Header from '../components/Header.jsx';
 
    const ProductListPage = () => {
    const { cartItems, setCartItems } = useContext(CartContext);
+   const { isLoggedIn } = useContext(AuthContext);
+   const navigate = useNavigate();
    const addToCart = (product) => {
-         console.log("Adding to cart:", product);
-         console.log("Current cart items:", cartItems);
+         if (!isLoggedIn) {
+         alert("Please login to add items to your cart");
+         navigate('/login', { state: { from: '/products' } });  
+         return;
+           } 
          setCartItems([...cartItems, product]);
 };
 

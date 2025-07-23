@@ -1,4 +1,4 @@
-import React, {useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
@@ -11,15 +11,31 @@ const LoginPage = () => {
   const navigate = useNavigate();  
   const location = useLocation();
   const from = location.state?.from || '/products';
-  {/* const { setIsLoggedIn } = useContext(UserContext); */}
-  const handleLogin = () => {
-    {/* setIsLoggedIn(true); */}
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setErrors] = useState({});
+  const validate = () => {
+    const newErrors = {};
+    if (!email) newErrors.email = 'Email is required';
+    if (!password) newErrors.password = 'Password is required';
+      else if (password.length < 6)
+          newErrors.password = 'Password must be atleast 6 characters';
+          return newErrors;
+   }; 
+  
+    const handleLogin = (e) => {
+    e.preventDefault();
+    const validationErrors = validate();
+    if (Object.keys(validationErrors).length > 0)
+      {
+        setErrors(validationErrors);
+        return;
+      };   
+
     login();
     alert("Login Successful"); 
-    console.log("Redirecting to:", from);
     navigate(from);
-  };
-  
+   };
 return (
 <>
 <Header />
@@ -30,10 +46,32 @@ return (
  </span>
  </div>
 <p className="text=lg md:text-xl font-medium text-pink-700 mb-6">Ecomm version 1.0</p>
- {/* <h2 className="text-2xl font-bold mb-6 text-center">Login to Nutmeg Bijoux</h2> */}
-  <div className="flex justify-center items-center min-h-screen">
-  <button onClick={handleLogin} className="text-2xl font-bold bg-blue-600 text-cyan-200 px-6 py-4 rounded hover:bg-white-700">Login</button>
-</div>
+ <form onSubmit={handleLogin} className="flex flex-col gap-4 w-full max-w-sm  bg-white p-6 rounded shadow">
+ 
+<input type="email" placeholder="Enter your email here" className="border p-2 rounded" value={email} onChange={(e) =>
+    setEmail(e.target.value)} />
+   {error.email && <p className="text-red-500 text-sm">{error.email}</p>}
+   
+ <input type="password" placeholder="Enter your password here" className="border p-2 rounded" value={password} onChange={(e) =>
+    setPassword(e.target.value)} />
+   {error.password && <p className="text-red-500 text-sm">{error.password}</p>}
+
+ <button type="submit" className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition">Login</button>
+  {/* <div className="mb-4 ">
+   <label className="block text-gray-700 mb-2">Email</label>
+   <input type="email" name="email" value={form.email} onChange={handleChange} placeholder="you@example.com" className="w-full px-4 py-2 border rounded"/>
+  </div> 
+
+  <div className="mb-6">
+   <label className="block text-gray-700 mb-2">Password</label> 
+   <input type="password" name="password" value={form.password} onChange={handleChange} placeholder=".........." className="w-full px-4 py-2 border rounded"/>
+  </div>
+ 
+  <button type="submit" className="w-full  bg-pink-600 text-white py-2 rounded hover:bg-pink-700 transition">Login</button>
+  <p className="mt-4 text-sm text-center text-gray-600">Dont have an account?{' '}
+    <Link to="/register" className="text-pink-600 underline">Register</Link>
+ </p> */}
+</form>
 </div>
 </>
        );
