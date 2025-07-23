@@ -14,6 +14,21 @@ const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setErrors] = useState({});
+  
+  const[passwordRules, setPassowordRules] = useState({
+    length: 'false',
+    upper: 'false',
+    special: 'false'
+  });
+  const [showPasswordRules, setShowPasswordRules] = useState(false);
+
+  const validatePasswordRules = (value) => {
+    setPassowordRules({
+      length: value.length >= 6,
+      upper: /[A-Z]/.test(value),
+      special: /[!@#$%^&*(),.?":{}|<>]/.test(value),
+    })
+  }
   const validate = () => {
     const newErrors = {};
     if (!email) newErrors.email = 'Email is required';
@@ -36,6 +51,7 @@ const LoginPage = () => {
     alert("Login Successful"); 
     navigate(from);
    };
+   const isPasswordValid = Object.values(passwordRules).every(Boolean)
 return (
 <>
 <Header />
@@ -53,10 +69,51 @@ return (
    {error.email && <p className="text-red-500 text-sm">{error.email}</p>}
    
  <input type="password" placeholder="Enter your password here" className="border p-2 rounded" value={password} onChange={(e) =>
-    setPassword(e.target.value)} />
+    {setPassword(e.target.value); 
+    validatePasswordRules(e.target.value);
+    }}
+    onFocus={() => setShowPasswordRules(true)}
+    />
    {error.password && <p className="text-red-500 text-sm">{error.password}</p>}
+{/* password rules */}
+{showPasswordRules && (
+   <div className="text-sm mt-2 space-y-1">
+            <p
+              className={
+                passwordRules.length ? 'text-green-600' : 'text-gray-600'
+              }
+            >
+              • At least 6 characters
+            </p>
+            <p
+              className={
+                passwordRules.upper ? 'text-green-600' : 'text-gray-600'
+              }
+            >
+              • At least 1 uppercase letter
+            </p>
+            <p
+              className={
+                passwordRules.special ? 'text-green-600' : 'text-gray-600'
+              }
+            >
+              • At least 1 special character (!@#$%^&)
+            </p>
+          </div>
+)}
+<p className="text-sm text-right text-blue-600 hover:underline cursor-pointer">
+  <Link to="/forgot-password">Forgot Password?</Link>
+</p>
 
- <button type="submit" className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition">Login</button>
+ {/* <button type="submit" className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition">Login</button> */}
+ <button type='submit' disabled={!isPasswordValid} 
+ className={`px-6 py-2 rounded transition ${
+  isPasswordValid?'bg-blue-600 text-white hover:bg-blue-700':'bg-gray-300 text-gray-500 cursor-not-allowed'
+ }`}>Login</button>
+
+ <p className='mt-4 text-sm text-center text-gray-600'>Don't have an account?{' '}
+  <Link to='/register' className='text-pink-600 underline'>Register</Link>
+ </p>
   {/* <div className="mb-4 ">
    <label className="block text-gray-700 mb-2">Email</label>
    <input type="email" name="email" value={form.email} onChange={handleChange} placeholder="you@example.com" className="w-full px-4 py-2 border rounded"/>

@@ -10,7 +10,9 @@ import AdminPage from './pages/AdminPage.jsx';
 import ProductListPage from './pages/ProductListPage.jsx';
 import CartPage from './pages/CartPage.jsx';
 import CheckoutPage from './pages/CheckoutPage.jsx';
-import ThankyouPage from './pages/ThankyouPage.jsx'; 
+import ThankyouPage from './pages/ThankyouPage.jsx';
+import ForgotPassword from './pages/ForgotPassword.jsx'; 
+import RegisterPage from './pages/RegisterPage.jsx';
 
 function App() 
 {
@@ -28,6 +30,8 @@ return (
   <Route path="/admin" element={<AdminPage />} />
   <Route path="/checkout" element={<CheckoutPage />} />
   <Route path="/thankyou" element={<ThankyouPage />} />
+  <Route path="/forgot-password" element={<ForgotPassword />}/>
+  <Route path="/register" element={<RegisterPage />}/>
 </Routes>
 </>
 );
