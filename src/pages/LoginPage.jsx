@@ -112,7 +112,7 @@ return (
  }`}>Login</button>
 
  <p className='mt-4 text-sm text-center text-gray-600'>Don't have an account?{' '}
-  <Link to='/register' className='text-pink-600 underline'>Register</Link>
+  <Link to='/registered' className='text-pink-600 underline'>Register</Link>
  </p>
   {/* <div className="mb-4 ">
    <label className="block text-gray-700 mb-2">Email</label>

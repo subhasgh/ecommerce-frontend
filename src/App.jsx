@@ -31,7 +31,7 @@ return (
   <Route path="/checkout" element={<CheckoutPage />} />
   <Route path="/thankyou" element={<ThankyouPage />} />
   <Route path="/forgot-password" element={<ForgotPassword />}/>
-  <Route path="/register" element={<RegisterPage />}/>
+  <Route path="/registered" element={<RegisterPage />}/>
 </Routes>
 </>
 );
