@@ -30,7 +30,7 @@ const ForgotPassword = () => {
 
   return (
    <div className="min-h-screen flex flex-col justify-center items-center bg-gray-100">
-      <div className="w-full max-w-md p-6 bg-white rounded shadow">
+      <div className="w-full max-w-md p-6 bg-white rounded-xl shadow">
         <h2 className="text-2xl font-semibold mb-4">Forgot Password</h2>
         <p className="mb-4 text-sm text-gray-600">
           Enter your registered email address. We will send you a password reset link.
@@ -38,14 +38,14 @@ const ForgotPassword = () => {
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <input
             type="email"
-            className="border p-2 rounded"
+            className="border p-2 rounded-xl"
             placeholder="Enter your email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
           <button
             type="submit"
-            className="bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
+            className="bg-blue-600 text-white py-2 rounded-xl hover:bg-blue-700 transition"
           >
             Send Reset Link
           </button>

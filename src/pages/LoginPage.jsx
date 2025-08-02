@@ -14,21 +14,14 @@ const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setErrors] = useState({});
+  const [showSuccess, setShowSuccess] = useState(false)
   
-  const[passwordRules, setPassowordRules] = useState({
-    length: 'false',
-    upper: 'false',
-    special: 'false'
-  });
-  const [showPasswordRules, setShowPasswordRules] = useState(false);
-
-  const validatePasswordRules = (value) => {
-    setPassowordRules({
-      length: value.length >= 6,
-      upper: /[A-Z]/.test(value),
-      special: /[!@#$%^&*(),.?":{}|<>]/.test(value),
-    })
-  }
+  // const[passwordRules, setPasswordRules] = useState({
+  //   length: 'false',
+  //   upper: 'false',
+  //   special: 'false'
+  // });
+  
   const validate = () => {
     const newErrors = {};
     if (!email) newErrors.email = 'Email is required';
@@ -48,13 +41,22 @@ const LoginPage = () => {
       };   
 
     login();
-    alert("Login Successful"); 
-    navigate(from);
+    setShowSuccess(true)
+    setTimeout(()=>{
+      setShowSuccess(false)
+      navigate(from)
+    },3000)
    };
-   const isPasswordValid = Object.values(passwordRules).every(Boolean)
+  
+  const isPasswordValid = password.length>=6;
 return (
 <>
 <Header />
+{showSuccess && (
+  <div className="fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg transition-all duration-300 z-50">
+    Login successful!
+  </div>
+)}
 <div className="min-h-screen flex flex-col justify-start pt-32 items-center bg-gray-100">
  <div className="text-6xl font-bold text-pink-1000 flex items-end justify-center mb-3">NutMe
  <span className="relative inline-block">
@@ -62,72 +64,31 @@ return (
  </span>
  </div>
 <p className="text=lg md:text-xl font-medium text-pink-700 mb-6">Ecomm version 1.0</p>
- <form onSubmit={handleLogin} className="flex flex-col gap-4 w-full max-w-sm  bg-white p-6 rounded shadow">
+ <form onSubmit={handleLogin} autoComplete='off' className="flex flex-col gap-4 w-full max-w-sm  bg-white p-6 rounded shadow">
  
-<input type="email" placeholder="Enter your email here" className="border p-2 rounded" value={email} onChange={(e) =>
+<input type="email" name='user_email' autoComplete='off' placeholder="Enter your email here" className="border p-2 rounded-full" value={email} onChange={(e) =>
     setEmail(e.target.value)} />
    {error.email && <p className="text-red-500 text-sm">{error.email}</p>}
    
- <input type="password" placeholder="Enter your password here" className="border p-2 rounded" value={password} onChange={(e) =>
-    {setPassword(e.target.value); 
-    validatePasswordRules(e.target.value);
-    }}
-    onFocus={() => setShowPasswordRules(true)}
-    />
-   {error.password && <p className="text-red-500 text-sm">{error.password}</p>}
-{/* password rules */}
-{showPasswordRules && (
-   <div className="text-sm mt-2 space-y-1">
-            <p
-              className={
-                passwordRules.length ? 'text-green-600' : 'text-gray-600'
-              }
-            >
-              • At least 6 characters
-            </p>
-            <p
-              className={
-                passwordRules.upper ? 'text-green-600' : 'text-gray-600'
-              }
-            >
-              • At least 1 uppercase letter
-            </p>
-            <p
-              className={
-                passwordRules.special ? 'text-green-600' : 'text-gray-600'
-              }
-            >
-              • At least 1 special character (!@#$%^&)
-            </p>
-          </div>
-)}
+ <input type="password" name='user_password'autoComplete='off'  placeholder="Enter your password here" className="border p-2 rounded-full" value={password} onChange={(e) =>
+    setPassword(e.target.value)} />
+   
+    
+   
 <p className="text-sm text-right text-blue-600 hover:underline cursor-pointer">
   <Link to="/forgot-password">Forgot Password?</Link>
 </p>
 
- {/* <button type="submit" className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition">Login</button> */}
- <button type='submit' disabled={!isPasswordValid} 
- className={`px-6 py-2 rounded transition ${
+ <button type="submit" className="bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 transition">Login</button>
+ {/* <button type='submit' disabled={!isPasswordValid} 
+ className={`px-6 py-2 rounded-full transition ${
   isPasswordValid?'bg-blue-600 text-white hover:bg-blue-700':'bg-gray-300 text-gray-500 cursor-not-allowed'
- }`}>Login</button>
+ }`}>Login</button> */}
 
  <p className='mt-4 text-sm text-center text-gray-600'>Don't have an account?{' '}
-  <Link to='/registered' className='text-pink-600 underline'>Register</Link>
+  <Link to='/registered' className='text-amber-900 underline'> Sign Up</Link>
  </p>
-  {/* <div className="mb-4 ">
-   <label className="block text-gray-700 mb-2">Email</label>
-   <input type="email" name="email" value={form.email} onChange={handleChange} placeholder="you@example.com" className="w-full px-4 py-2 border rounded"/>
-  </div> 
-
-  <div className="mb-6">
-   <label className="block text-gray-700 mb-2">Password</label> 
-   <input type="password" name="password" value={form.password} onChange={handleChange} placeholder=".........." className="w-full px-4 py-2 border rounded"/>
-  </div>
- 
-  <button type="submit" className="w-full  bg-pink-600 text-white py-2 rounded hover:bg-pink-700 transition">Login</button>
-  <p className="mt-4 text-sm text-center text-gray-600">Dont have an account?{' '}
-    <Link to="/register" className="text-pink-600 underline">Register</Link>
- </p> */}
+  
 </form>
 </div>
 </>
