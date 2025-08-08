@@ -4,9 +4,11 @@ import { CartContext } from '../context/CartContext';
 import { useNavigate } from 'react-router-dom';        
 import { AuthContext } from '../context/AuthContext';
 import Header from '../components/Header.jsx';
+import { HiTrash } from 'react-icons/hi2'; 
+
 
 const CartPage = () => {
-  const { cartItems } = useContext(CartContext);
+  const { cartItems, removeFromCart, updateItemQuantity } = useContext(CartContext);
   const { isLoggedIn } = useContext(AuthContext);      // Use user login state
   console.log("isLoggedIn:", isLoggedIn);
   const navigate = useNavigate();                    
@@ -26,7 +28,8 @@ useEffect(() => {
 
   const total = cartItems.reduce((sum, item) => {
     const price = parseInt(item.price.replace(/[$,]/g, '')) || 0;
-    return sum + price;
+    return sum + price * (item.quantity || 1)
+  
   }, 0);
 
   return (
@@ -42,6 +45,7 @@ useEffect(() => {
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
               {cartItems.map((item, index) => {
                 const price = parseInt(item.price.replace(/[$,]/g, '')) || 0;
+                const qty = item.quantity || 1;
                 return (
 
                   <div key={index} className="bg-white shadow-md rounded-lg p-4 text-center">
@@ -49,7 +53,34 @@ useEffect(() => {
                     <div>
                       <h2 className="text-lg font-semibold">{item.name}</h2>
                       <p className="text-pink-700">${price}</p>
+                      <div className="flex flex-col justify-center items-center mt-3">
+                        <div className='flex items-center space-x-2'>
+          <button
+            onClick={() => updateItemQuantity(item.id, qty - 1)}
+            className="bg-gray-200 px-2 py-1 rounded"
+          >
+            −
+          </button>
+          <span>{qty}</span>
+          <button
+            onClick={() => updateItemQuantity(item.id, qty + 1)}
+            className="bg-gray-200 px-2 py-1 rounded"
+          >
+            +
+          </button>
+        </div>
+
+          <button
+            onClick={() => removeFromCart(item.id)}
+            className="mt-2 text-red-500 text-sm flex items-center space-x-1  "
+          >
+            {/* <span >🗑️</span> */}
+            <HiTrash className='w-4 h-4 text-black'/>
+            <span className='hover:underline'>Remove</span>
+            
+          </button>
                     </div>
+                  </div>
                   </div>
                 );
               })}

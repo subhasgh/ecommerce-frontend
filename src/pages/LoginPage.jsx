@@ -16,11 +16,7 @@ const LoginPage = () => {
   const [error, setErrors] = useState({});
   const [showSuccess, setShowSuccess] = useState(false)
   
-  // const[passwordRules, setPasswordRules] = useState({
-  //   length: 'false',
-  //   upper: 'false',
-  //   special: 'false'
-  // });
+ 
   
   const validate = () => {
     const newErrors = {};
@@ -47,13 +43,12 @@ const LoginPage = () => {
       navigate(from)
     },3000)
    };
-  
   const isPasswordValid = password.length>=6;
 return (
 <>
 <Header />
 {showSuccess && (
-  <div className="fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg transition-all duration-300 z-50">
+  <div className="fixed top-5 right-5 z-50 bg-green-500  text-white px-4 py-2 rounded shadow-lg transition-all duration-300 ">
     Login successful!
   </div>
 )}
@@ -80,12 +75,7 @@ return (
 </p>
 
  <button type="submit" className="bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 transition">Login</button>
- {/* <button type='submit' disabled={!isPasswordValid} 
- className={`px-6 py-2 rounded-full transition ${
-  isPasswordValid?'bg-blue-600 text-white hover:bg-blue-700':'bg-gray-300 text-gray-500 cursor-not-allowed'
- }`}>Login</button> */}
-
- <p className='mt-4 text-sm text-center text-gray-600'>Don't have an account?{' '}
+<p className='mt-4 text-sm text-center text-gray-600'>Don't have an account?{' '}
   <Link to='/registered' className='text-amber-900 underline'> Sign Up</Link>
  </p>
   

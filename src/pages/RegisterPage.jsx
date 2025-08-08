@@ -41,8 +41,7 @@
         navigate('/login')
       },5000)
 
-      // alert('Registered successfully!');
-      // navigate('/login');
+   
     };
     useEffect(() => {
     const checkStrength = () => {

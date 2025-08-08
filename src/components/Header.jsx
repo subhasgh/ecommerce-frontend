@@ -1,23 +1,34 @@
 
 
-import React, {useContext } from 'react';
+import React, {useContext,useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 
 const Header = () => {
       const { isLoggedIn, logout } = useContext(AuthContext);
       const navigate = useNavigate();
+      const [showLogoutMessage, setShowLogoutMessage] = useState(false)
       
       const handleLogout = (e) => {
           e.preventDefault();
           logout();
-          alert("Logged out successfully"); 
-          navigate('/login');
+          setShowLogoutMessage(true)
+          setTimeout(()=>{
+            setShowLogoutMessage(false);
+            navigate("/login")
+          },3000)
         };
 
    return (
      <>
-       <header className="bg-black text-white shadow-md py-8 min-h-[300px] shadow-lg border-b-4 border-yellow-400">
+     {/* logout success toast */}
+     {showLogoutMessage && (
+      <div className='fixed top-5 right-5 z-50 bg-green-500 text-white px-4 py-2 rounded shadow-lg transition-opacity duration-300'>
+        Logged Out Successfully!
+        
+    </div>
+     )}
+       <header className="bg-black text-white  py-8 min-h-[300px] shadow-lg border-b-4 border-yellow-400">
          <div className="container mx-auto flex flex-col items-center justify-center space-y-20">
            <p className="text-base md:text-lg lg:text-lg"></p> 
             <h1 className="text-7xl font-extrabold uppercase text-yellow-500 tracking-wide mb-3">Nutmeg Bijoux</h1> 
