@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import { CartContext } from '../context/CartContext';
 import Header from '../components/Header.jsx';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
    const ProductListPage = () => {
    const { cartItems, setCartItems } = useContext(CartContext);
@@ -10,10 +12,28 @@ import Header from '../components/Header.jsx';
    const navigate = useNavigate();
    const addToCart = (product) => {
          if (!isLoggedIn) {
-         alert("Please login to add items to your cart");
-         navigate('/login', { state: { from: '/products' } });  
-         return;
-           } 
+           toast.error("Please login to continue", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        style: {
+          backgroundColor: '#fce7f3', // light pink
+          color: '#9d174d',           // deep pink text
+          fontWeight: 'bold',
+          borderRadius: '8px',
+          border: '2px solid #fbbf24', // yellow border
+        },
+        progressStyle: {
+          background: '#fbbf24', // yellow progress bar
+        }
+         
+           } )
+           navigate('/login', { state: { from: '/products' } });
+      return;
+          }
          setCartItems([...cartItems, product]);
 };
 

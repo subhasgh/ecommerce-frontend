@@ -35,7 +35,7 @@ useEffect(() => {
   return (
     <>
       <Header />
-      <div className="min-h-screen p-6 bg-gray-50">
+      <div className="min-h-screen p-6" style={{backgroundColor:'#fef6e4'}}>
         <h1 className="text-3xl font-bold mb-6 text-center text-pink-800">Your Cart</h1>
 
         {cartItems.length === 0 ? (

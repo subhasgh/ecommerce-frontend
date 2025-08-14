@@ -1,5 +1,7 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import SplashScreen from './pages/SplashScreen.jsx';
 import HomePage from './pages/HomePage.jsx';
 import LoginPage from './pages/LoginPage.jsx';
@@ -18,6 +20,7 @@ function App()
 {
 return (
 <>
+<ToastContainer />
 <Routes>
   <Route path="/" element={<SplashScreen />} />
   <Route path="/home" element={<HomePage />} />
