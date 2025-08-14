@@ -8,7 +8,7 @@ const AdminLogin = () => {
   const handleLogin = () => {
     if (adminUsername === 'admin' && adminPassword === 'admin123') {
        alert('Admin login successful');
-       navigate('/admin-dashboard');
+       navigate('/admindashboard');
         }
        else
         {

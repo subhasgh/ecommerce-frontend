@@ -1,0 +1,43 @@
+.marquee-container {
+overflow: hidden;
+position: relative;
+width: 100%;
+white-space: nowrap;
+}
+
+.marquee-content {
+display: flex;
+width: max-content;
+animation: scrollLoop 8s linear infinite;
+transform: translateX(100%);
+}
+
+.marquee-text {
+  background: linear-gradient(
+    90deg,
+    #254117,
+    #ffea00,
+    #665D1E,
+    #ffd700
+  );
+ background-size: 300% auto;
+   
+color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: shimmer 3s linear infinite;
+  font-size: 2.5rem;
+  font-weight: bold;
+  padding-right: 100%;
+  
+}
+
+@keyframes shimmer {
+  0% { background-position: 0% center; }
+  100% { background-position: 300% center; }
+}
+
+@keyframes scrollLoop {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
