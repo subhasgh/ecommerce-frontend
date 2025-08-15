@@ -1,4 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap');
 @import '@fortawesome/fontawesome-free/css/all.min.css';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+{/* .text-dark-outline {
+color: #ffffff; text-shadow: -1px -1px 0  #1a1a1a,  1px-1px 0  #1a1a1a, -1px 1px #1a1a1a, 1px 1px 0 #1a1a1a ; }
+style for where the magic begins */}
+@keyframes wave-flag {
+  0% { transform: perspective(500px) rotateY(0deg); }
+  25% { transform: perspective(500px) rotateY(5deg); }
+  50% { transform: perspective(500px) rotateY(0deg); }
+  75% { transform: perspective(500px) rotateY(-5deg); }
+  100% { transform: perspective(500px) rotateY(0deg); }
+}
+
+.waving-flag {
+  animation: wave-flag 2s infinite linear;
+  transform-origin: left center;
+}

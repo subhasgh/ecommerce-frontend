@@ -1,0 +1,17 @@
+.header-brand {
+  font-size: 3.5rem; /* adjust as needed */
+  font-weight: bold;
+  letter-spacing: 3px;
+  background: linear-gradient(90deg, #480E1E, #ffd700, #3F00FF, #ffd700, #FF4500);
+  background-size: 300% auto;
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: goldShimmer 6s linear infinite;
+  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+@keyframes goldShimmer {
+  0% { background-position: 0% center; }
+  100% { background-position: 300% center; }
+}

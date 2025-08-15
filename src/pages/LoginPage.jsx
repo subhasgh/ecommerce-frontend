@@ -13,11 +13,26 @@ const LoginPage = () => {
   const from = location.state?.from || '/products';
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setErrors] = useState({});
+  const [errors, setErrors] = useState({});
   const [showSuccess, setShowSuccess] = useState(false)
   
  
   
+  
+  const[passwordRules, setPasswordRules] = useState({
+    length: 'false',
+    upper: 'false',
+    special: 'false'
+  });
+  const [showPasswordRules, setShowPasswordRules] = useState(false);
+
+  const validatePasswordRules = (value) => {
+    setPasswordRules({
+      length: value.length >= 6,
+      upper: /[A-Z]/.test(value),
+      special: /[!@#$%^&*(),.?":{}|<>]/.test(value),
+    })
+  }
   const validate = () => {
     const newErrors = {};
     if (!email) newErrors.email = 'Email is required';
@@ -86,7 +101,7 @@ return (
  
 <input type="email" name='user_email' autoComplete='off' placeholder="Enter your email" className="border p-2 rounded-full" value={email} onChange={(e) =>
     setEmail(e.target.value)} />
-   {error.email && <p className="text-red-500 text-sm">{error.email}</p>}
+   {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
    
  <input type="password" name='user_password'autoComplete='off'  placeholder="Enter your password" className="border p-2 rounded-full" value={password} onChange={(e) =>
     setPassword(e.target.value)} />

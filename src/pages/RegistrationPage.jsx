@@ -18,7 +18,7 @@ const validate = () => {
      newErrors.name = 'Name is required';
   if (!formData.email.trim())
      newErrors.email = 'Email is required';
-  else if (!/^[^#s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim()))
+  else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim()))
      newErrors.email = 'Invalid email format';
   if (!formData.password)
      newErrors.password = 'Password is required';
