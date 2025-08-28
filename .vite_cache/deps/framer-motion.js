@@ -1,13 +1,15 @@
 "use client";
 import {
   require_jsx_runtime
-} from "./chunk-E2MTKLI5.js";
+} from "./chunk-2FIHDXPZ.js";
+import {
+  require_react
+} from "./chunk-32EALFBN.js";
 import {
   __commonJS,
   __export,
-  __toESM,
-  require_react
-} from "./chunk-H3AANLML.js";
+  __toESM
+} from "./chunk-G3PMV62Z.js";
 
 // optional-peer-dep:__vite-optional-peer-dep:@emotion/is-prop-valid:framer-motion:true
 var require_is_prop_valid_framer_motion_true = __commonJS({
@@ -7295,7 +7297,7 @@ var VisualElementDragControls = class {
     }
     frame.read(measureDragConstraints);
     const stopResizeListener = addDomEvent(window, "resize", () => this.scalePositionWithinConstraints());
-    const stopLayoutUpdateListener = projection.addEventListener("didUpdate", ({ delta, hasLayoutChanged }) => {
+    const stopLayoutUpdateListener = projection.addEventListener("didUpdate", (({ delta, hasLayoutChanged }) => {
       if (this.isDragging && hasLayoutChanged) {
         eachAxis((axis) => {
           const motionValue2 = this.getAxisMotionValue(axis);
@@ -7306,7 +7308,7 @@ var VisualElementDragControls = class {
         });
         this.visualElement.render();
       }
-    });
+    }));
     return () => {
       stopResizeListener();
       stopPointerListener();

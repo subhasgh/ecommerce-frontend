@@ -153,19 +153,22 @@ export default function ImageCarousel() {
 
 import { useState, useEffect } from "react";
 
-import m2 from "../assets/m2.jpeg";
-import b2 from "../assets/b2.jpeg";
-import m3 from "../assets/m3.jpeg";
-import b4 from "../assets/b4.jpeg";
-import b5 from "../assets/b5.jpeg";
-import m1 from "../assets/m1.jpeg";
-import l1 from "../assets/l1.jpeg";
+import banner8 from "../assets/banner8.jpeg";
+//import b3 from "../assets/b3.jpeg";
+//import m4 from "../assets/m4.jpeg";
+//import b4 from "../assets/b4.jpeg";
+//import m5 from "../assets/m5.jpeg";
+//import m1 from "../assets/m1.jpeg";
+//import l1 from "../assets/l1.jpeg";
 import l2 from "../assets/l2.jpeg";
-import banner1 from "../assets/banner1.jpg";
-import banner4 from "../assets/banner4.jpg";
+import banner3 from "../assets/banner3.jpg";
+import banner5 from "../assets/banner5.jpeg";
+
+import banner6 from "../assets/banner6.jpeg";
+import banner7 from "../assets/banner7.jpeg";
 
 
-const images = [m2, b2, m3, b4, b5, m1, l1, l2, banner1, banner4];
+const images = [banner8, l2,  banner3, banner5, banner6, banner7];
 
 export default function ImageCarousel() {
   const [index, setIndex] = useState(0);

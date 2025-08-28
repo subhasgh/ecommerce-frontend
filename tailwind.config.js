@@ -1,8 +1,12 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: [ "./index.html", "./src/**/*.{js,ts,jsx,tsx,html}",],
+  content: [ "./index.html", "./src/**/*.{js,ts,jsx,tsx,tsx,html}",],
   theme: {
     extend: {
+//        colors: {
+  //           brown: { 700: "#6e3d2e",
+    //  },
+//},
        keyframes: {
       slideIn: {
         '0%': { transform: 'translateX(100%)', opacity: '0' },

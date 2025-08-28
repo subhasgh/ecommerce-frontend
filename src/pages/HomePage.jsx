@@ -9,6 +9,7 @@ import herImage from "../assets/Hers.jpeg";
 import dealImage from "../assets/Deal.jpeg";
 import deal1Image from "../assets/Deal1.jpeg";
 import deal2Video from "../assets/Deal2.mp4";
+import CollectionsCarousel from "../components/CollectionsCarousel.jsx";
 
 import "../styles/glitter.css";
 
@@ -56,7 +57,7 @@ const HomePage = () => {
       <Flag />
       <Header />
       <ImageCarousel />
-
+     <CollectionsCarousel />
       <div className="bg-gradient-to-br from-yellow-50 to-pink-50 min-h-screen p-6">
         {/* His & Hers Collection */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-12">
