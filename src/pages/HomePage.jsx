@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import Header from "../components/Header";
 import ImageCarousel from "../components/ImageCarousel";
 import Flag from "../components/Flag.jsx";
+import Footer from "../components/Footer.jsx";
 
 import hisImage from "../assets/Hims.jpeg";
 import herImage from "../assets/Hers.jpeg";
@@ -10,6 +11,7 @@ import dealImage from "../assets/Deal.jpeg";
 import deal1Image from "../assets/Deal1.jpeg";
 import deal2Video from "../assets/Deal2.mp4";
 import CollectionsCarousel from "../components/CollectionsCarousel.jsx";
+import DailyMetalRate from "../components/DailyMetalRate.jsx"; 
 
 import "../styles/glitter.css";
 
@@ -57,6 +59,7 @@ const HomePage = () => {
       <Flag />
       <Header />
       <ImageCarousel />
+      <DailyMetalRate />
      <CollectionsCarousel />
       <div className="bg-gradient-to-br from-yellow-50 to-pink-50 min-h-screen p-6">
         {/* His & Hers Collection */}
@@ -69,15 +72,15 @@ const HomePage = () => {
               className="w-full h-[900px] object-cover"
             />
             <div className="p-4">
-              <h2 className="text-2xl font-semibold mb-2">His</h2>
+              {/* <h2 className="text-2xl font-semibold mb-2">His</h2> */}
               <p className="text-green-800 font-medium mb-4">
                 Elegant and bold style for him
               </p>
               <Link
                 to="/products"
-                className="text-pink-600 hover:underline font-medium"
+                className="text-2xl font-semibold mb-2 text-pink-600 hover:underline font-medium"
               >
-                Shop Now
+                His
               </Link>
             </div>
           </div>
@@ -90,15 +93,15 @@ const HomePage = () => {
               className="w-full h-[900px] object-cover"
             />
             <div className="p-4">
-              <h2 className="text-2xl font-semibold mb-2">Hers</h2>
+             {/* <h2 className="text-2xl font-semibold mb-2">Hers</h2> */}
               <p className="text-green-800 font-medium mb-4">
                 Graceful and timeless designs for her
               </p>
               <Link
                 to="/products"
-                className="text-pink-600 hover:underline font-medium"
+                className="text-2xl font-semibold mb-2 text-pink-600 hover:underline font-medium"
               >
-                Shop Now
+                Hers
               </Link>
             </div>
           </div>
@@ -132,7 +135,7 @@ const HomePage = () => {
           <img
             src={offer.src}
             alt={offer.alt}
-            className="w-full h-96 object-cover rounded"
+            className="w-full h-120 object-cover rounded"
           />
         ) : (
           <video
@@ -141,13 +144,14 @@ const HomePage = () => {
             loop
             muted
             playsInline
-            className="w-full h-96 object-cover rounded"
+            className="w-full h-120 object-cover rounded"
           />
         )}
       </Link>
     ))}
   </div>
 </div>
+ <Footer />
              
       </div>
     </>

@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import { CartContext } from '../context/CartContext';
 {/* import { UserContext } from '../context/UserContext'; */}  
 import { useNavigate } from 'react-router-dom';        
-import { AuthContext } from '../context/AuthContext';
+import AuthContext, { useAuth } from '../context/AuthContext';
 import Header from '../components/Header.jsx';
 import { HiTrash } from 'react-icons/hi2'; 
 

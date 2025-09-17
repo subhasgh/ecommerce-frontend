@@ -1,0 +1,55 @@
+
+
+
+/* This css is style for that metal rate tickler css effect. This function is called in DailyMetalRate.jsx file */
+
+.metal-banner {
+  background: linear-gradient(to right, #a72222, #333);
+  padding: 8px 0;
+  overflow: hidden;
+  position: relative;
+  white-space: nowrap;
+  display: flex;
+}
+
+.scroll-text {
+  display: inline-block;
+  min-width: 100%; /* ensure full width for duplication */
+  animation: scroll-left 25s linear infinite;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #ffd700;
+}
+
+@keyframes scroll-left {
+  0%   { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+
+/* Gold shimmer */
+.glitter-gold {
+  background: linear-gradient(90deg, #ffd700, #fff8dc, #ffd700, #fff8dc);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer-gold 2.5s linear infinite;
+}
+
+@keyframes shimmer-gold {
+  0%   { background-position: 200% center; }
+  100% { background-position: -200% center; }
+}
+
+/* Silver shimmer */
+.glitter-silver {
+  background: linear-gradient(90deg, #c0c0c0, #ffffff, #c0c0c0, #ffffff);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer-silver 2.5s linear infinite;
+}
+
+@keyframes shimmer-silver {
+  0%   { background-position: 200% center; }
+  100% { background-position: -200% center; }
+}

@@ -160,15 +160,16 @@ import banner8 from "../assets/banner8.jpeg";
 //import m5 from "../assets/m5.jpeg";
 //import m1 from "../assets/m1.jpeg";
 //import l1 from "../assets/l1.jpeg";
-import l2 from "../assets/l2.jpeg";
-import banner3 from "../assets/banner3.jpg";
-import banner5 from "../assets/banner5.jpeg";
+import neb from "../assets/neb.jpeg";
+import haramb from "../assets/haramb.jpeg";
+import yban from "../assets/yban.jpeg";
+import rban from "../assets/rban.jpeg";
+import wn from "../assets/wn.jpeg";
+import ba from "../assets/ba.jpeg";
+import ba1 from "../assets/ba1.jpeg";
+//import ba2 from "../assets/ba2.jpeg";
 
-import banner6 from "../assets/banner6.jpeg";
-import banner7 from "../assets/banner7.jpeg";
-
-
-const images = [banner8, l2,  banner3, banner5, banner6, banner7];
+const images = [neb, haramb, yban, rban, wn,  ba,ba1];
 
 export default function ImageCarousel() {
   const [index, setIndex] = useState(0);

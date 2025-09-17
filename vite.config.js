@@ -11,6 +11,14 @@ export default defineConfig({
     port: 5174,           // Fixed port to avoid 5173 fallback
     strictPort: true,     // If 5174 is in use, fail instead of switching
     open: true,           // Auto-open in browser
+
+      proxy: {
+      '/api': {
+        target: 'http://localhost:5000', // Your backend server
+        changeOrigin: true,
+        secure: false,
+      },
+    },
   },
   resolve: {
     alias: {
