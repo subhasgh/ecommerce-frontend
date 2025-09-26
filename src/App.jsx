@@ -10,8 +10,7 @@ import Header from './components/Header.jsx';
 import LoginPage from './pages/LoginPage.jsx';
 import RegisterPage from './pages/RegisterPage.jsx';
 import { ToastContainer } from 'react-toastify';
-import AdminLogin from './pages/AdminLogin.jsx';
-import AdminDashboard from './pages/AdminDashboard.jsx';
+import AdminLoginPage from './pages/AdminLoginPage.jsx';
 import AdminPage from './pages/AdminPage.jsx';
 import ProductListPage from './pages/ProductListPage.jsx';
 import GoldEarringsPage from './pages/GoldEarringsPage.jsx';
@@ -30,23 +29,10 @@ function App() {
     // Navigate to Reset Password page or perform any other action
   };
 
-
   return (
     <>
-      <ToastContainer />
-      {/* <ProductDetailPage />; */}
-     {/* {location.pathname !== '/' && <DailyMetalRate />} */} 
-
-      {/* <nav className="flex gap-4 p-4 bg-gray-200">
-        <Link to="/register">Register</Link>
-        <Link to="/login">Login</Link>
-        <Link to="/forgot-password">Forgot Password</Link>
-        <Link to="/otp">Forgot Password</Link>
-        <Link to="/reset-password">Reset Password</Link>
-      </nav> */}
-
+      <ToastContainer />        
       
-
       <Routes>
         <Route path="/" element={<SplashScreen />} />
         <Route path="/home" element={<HomePage />} />
@@ -55,14 +41,16 @@ function App() {
         <Route path="/products/:id" element={<ProductDetailPage />} />    {/* ✅ Dynamic product detail */}
         <Route path="/cart" element={<CartPage />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/adminlogin" element={<AdminLogin />} />
-        <Route path="/admindashboard" element={<AdminDashboard />} />
+        <Route path="/admin/login" element={<AdminLoginPage />} />
         <Route path="/admin" element={<AdminPage />} />
         <Route path="/checkout" element={<CheckoutPage />} />
         <Route path="/thankyou" element={<ThankyouPage />} />
         <Route path="/forgot-password" element={<ForgotPassword />}/>
         <Route path="/reset-password" element={<ResetPasswordPage />}/>
         <Route path="/register" element={<RegisterPage />}/>
+        
+        
+
         {/* <Route path="/forgotpassword" element={<ForgotPassword />}/> */}
         {/*  <Route path="/otp" element={<OtpVerification email="test@gmail.com" onSuccess={() => alert('OTP Verified')}  />}/> */}
                {/* <Route path="/otp-verification/:userId" element={<OtpVerification onSuccess={handleSuccess} />} /> */}

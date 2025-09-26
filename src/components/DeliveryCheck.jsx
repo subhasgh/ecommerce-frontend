@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+{/* import React, { useState } from "react";
 
 const DeliveryCheck = () => {
   const [pincode, setPincode] = useState("");
@@ -37,3 +37,4 @@ const DeliveryCheck = () => {
 };
 
 export default DeliveryCheck;
+*/}

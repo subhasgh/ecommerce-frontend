@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { CartContext } from "../context/CartContext";
-import { AuthContext } from "../context/AuthContext";
+import AuthContext, { useAuth } from '../context/AuthContext';
 import { useNavigate } from "react-router-dom";
 import { HiTrash } from "react-icons/hi2";
 import Header from "../components/Header";

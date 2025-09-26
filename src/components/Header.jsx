@@ -4,6 +4,407 @@
 
 import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import AuthContext from "../context/AuthContext"; // make sure this path matches your file exactly
+import headerBanner from "../assets/GoldBanner.jpeg"; // check exact casing and extension
+import { FaUser, FaShoppingCart, FaHeart, FaSearch } from "react-icons/fa";
+import "../styles/banner.css";
+
+const Header = () => {
+  const { isLoggedIn, logout } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const [showLogoutMessage, setShowLogoutMessage] = useState(false);
+
+  // Search state
+  const [showSearch, setShowSearch] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [results, setResults] = useState([]);
+
+  const handleLogout = (e) => {
+    e.preventDefault();
+    logout();
+    setShowLogoutMessage(true);
+    setTimeout(() => {
+      setShowLogoutMessage(false);
+      navigate("/login");
+    }, 3000);
+  };
+
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    if (!searchTerm.trim()) return;
+    if (results.length > 0) navigate(results[0].path);
+    setShowSearch(false);
+    setSearchTerm("");
+    setResults([]);
+  };
+
+  const handleChange = async (e) => {
+    const value = e.target.value;
+    setSearchTerm(value);
+
+    if (!value.trim()) {
+      setResults([]);
+      return;
+    }
+
+    try {
+      const res = await fetch(`/api/search?query=${value}`);
+      const data = await res.json();
+      setResults(data);
+    } catch (err) {
+      console.error("Search error:", err);
+      setResults([]);
+    }
+  };
+
+  return (
+    <header className="w-full shadow-md">
+      {/* Banner Image */}
+      <div className="w-full h-[400px] relative border-b-3 border-yellow-400 shadow-md">
+        <img
+          src={headerBanner}
+          alt="Banner"
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute top-1/2 left-1/2 text-center transform -translate-x-1/2 -translate-y-1/2">
+          <h1 className="header-brand">NutMeg Bijoux</h1>
+        </div>
+
+        {/* Top Right Icons */}
+<div className="absolute top-6 right-8 flex items-center space-x-4 text-xl drop-shadow z-50">
+
+  {/* Search Icon */}
+  <div className="relative">
+    <button
+      onClick={() => setShowSearch(!showSearch)}
+      className="  p-2 shadow-lg focus:outline-none text-white transition duration-200"
+      title="Search"
+    >
+      <FaSearch />
+    </button>
+    {/* bg-white/80 hover:bg-white/100 text-gray-800 rounded-full */}
+
+    {showSearch && (
+      <form
+        onSubmit={handleSearchSubmit}
+        className="absolute right-0 mt-2 bg-white rounded-lg shadow-lg w-64 flex flex-col z-50"
+      >
+        <input
+          type="text"
+          value={searchTerm}
+          onChange={handleChange}
+          placeholder="Search..."
+          className="px-3 py-2 w-full rounded-t-lg border focus:outline-none focus:ring-2 focus:ring-amber-400"
+          autoFocus
+        />
+        {results.length > 0 && (
+          <ul className="max-h-60 overflow-auto">
+            {results.map((item) => (
+              <li
+                key={`${item.type}-${item.id}`}
+                className="px-3 py-2 hover:bg-gray-100 cursor-pointer"
+                onClick={() => {
+                  navigate(item.path);
+                  setShowSearch(false);
+                  setSearchTerm("");
+                  setResults([]);
+                }}
+              >
+                {item.name}{" "}
+                <span className="text-gray-400 text-sm">({item.type})</span>
+              </li>
+            ))}
+          </ul>
+        )}
+      </form>
+    )}
+  </div>
+
+  {/* Other icons */}
+  <Link to="/login" title="Login" className="text-white hover:text-gray-600">
+    <FaUser />
+  </Link>
+  <Link to="/wishlist" title="Wishlist" className="text-white hover:text-gray-600">
+    <FaHeart />
+  </Link>
+  <Link to="/cart" title="Cart" className="text-white hover:text-gray-600">
+    <FaShoppingCart />
+  </Link>
+  <Link to="/countries" title="Countries" className="text-white hover:text-gray-600">
+    <div className="w-7 h-5 flex items-center justify-center">
+      <span role="img" aria-label="India" className="text-xl leading-none">
+        🇮🇳
+      </span>
+    </div>
+  </Link>
+</div>
+          
+      </div>
+
+      {/* Navigation Bar */}
+      <nav className="bg-[#F5DEB3] flex justify-center py-4 shadow border-t-4 border-amber-300">
+        <ul className="flex flex-wrap gap-6 text-[#480E1E] font-semibold text-sm items-center">
+          <li>
+            <Link to="/home" className="hover:underline">
+              Home
+            </Link>
+          </li>
+
+          <li className="group relative">
+            <span className="cursor-pointer hover:underline">Elements of Elegance</span>
+            <ul className="absolute top-full left-0 hidden group-hover:block bg-white shadow-lg rounded z-10 min-w-[160px]">
+              <li>
+                <Link to="/category/diamond" className="block px-4 py-2 hover:bg-gray-100">
+                  Diamond
+                </Link>
+              </li>
+              <li>
+                <Link to="/category/platinum" className="block px-4 py-2 hover:bg-gray-100">
+                  Platinum
+                </Link>
+              </li>
+              <li className="relative">
+                <span className="peer block px-4 py-2 cursor-pointer hover:bg-gray-100">
+                  Gold ▸
+                </span>
+                <ul className="absolute top-0 left-full hidden peer-hover:block hover:block bg-white shadow-lg rounded z-20 min-w-[160px]">
+                  <li>
+                    <Link to="/jewels/earrings" className="block px-4 py-2 hover:bg-gray-100">
+                      Earrings
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/jewels/bangles" className="block px-4 py-2 hover:bg-gray-100">
+                      Bangles
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/jewels/bracelets" className="block px-4 py-2 hover:bg-gray-100">
+                      Bracelets
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/products" className="block px-4 py-2 hover:bg-gray-100">
+                      Neck Aura
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/jewels/chain" className="block px-4 py-2 hover:bg-gray-100">
+                      Chain
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/jewels/anklets" className="block px-4 py-2 hover:bg-gray-100">
+                      Anklets
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/jewels/rings" className="block px-4 py-2 hover:bg-gray-100">
+                      Rings
+                    </Link>
+                  </li>
+                </ul>
+              </li>
+              <li>
+                <Link to="/category/silver" className="block px-4 py-2 hover:bg-gray-100">
+                  Silver
+                </Link>
+              </li>
+            </ul>
+          </li>
+
+          <li>
+            <Link to="/toppicks" className="hover:underline">
+              Top Picks
+            </Link>
+          </li>
+          <li>
+            <Link to="/coins" className="hover:underline">
+              Coins
+            </Link>
+          </li>
+          <li>
+            <Link to="/schemes" className="hover:underline">
+              Smart Gold Plans
+            </Link>
+          </li>
+        </ul>
+      </nav>
+    </header>
+  );
+};
+
+export default Header;
+
+
+
+
+
+
+{/* import React, { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import AuthContext from "../context/AuthContext";
+import headerBanner from "../assets/GoldBanner.jpeg";
+import { FaUser, FaShoppingCart, FaHeart } from "react-icons/fa"; // removed FaSearch, we use separate component
+import "../styles/banner.css";
+import SearchDropdown from "../components/SearchDropdown"; // ✅ Import SearchDropdown
+
+const Header = () => {
+  const { isLoggedIn, logout } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const [showLogoutMessage, setShowLogoutMessage] = useState(false);
+
+  const handleLogout = (e) => {
+    e.preventDefault();
+    logout();
+    setShowLogoutMessage(true);
+    setTimeout(() => {
+      setShowLogoutMessage(false);
+      navigate("/login");
+    }, 3000);
+  };
+
+  return (
+    <header className="w-full shadow-md">
+      {/* Banner Image *
+      <div className="w-full h-[400px] relative border-b-3 border-yellow-400 shadow-md">
+        <img
+          src={headerBanner}
+          alt="Banner"
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute top-1/2 left-1/2 text-center transform -translate-x-1/2 -translate-y-1/2">
+          <h1 className="header-brand">NutMeg Bijoux</h1>
+        </div>
+
+        {/* Top Right Icons *
+        <div className="absolute top-6 right-8 flex items-center space-x-4 text-white text-xl drop-shadow">
+          {/* ✅ Search Dropdown */}
+         {/*} <SearchDropdown/> */}
+
+          {/* Other icons *
+          <Link to="/login" title="Login">
+            <FaUser />
+          </Link>
+          <Link to="/wishlist" title="Wishlist">
+            <FaHeart />
+          </Link>
+          <Link to="/cart" title="Cart">
+            <FaShoppingCart />
+          </Link>
+          <Link to="/countries" title="Countries">
+            <div className="w-7 h-5 flex items-center justify-center">
+              <span role="img" aria-label="India" className="text-xl leading-none">
+                🇮🇳
+              </span>
+            </div>
+          </Link>
+        </div>
+      </div>
+
+      {/* Navigation Bar *
+      <nav className="bg-[#F5DEB3] flex justify-center py-4 shadow border-t-4 border-amber-300">
+        <ul className="flex flex-wrap gap-6 text-[#480E1E] font-semibold text-sm items-center">
+          <li>
+            <Link to="/home" className="hover:underline">
+              Home
+            </Link>
+          </li>
+
+          {/* Elements of Elegance *
+          <li className="group relative">
+            <span className="cursor-pointer hover:underline">Elements of Elegance</span>
+            <ul className="absolute top-full left-0 hidden group-hover:block bg-white shadow-lg rounded z-10 min-w-[160px]">
+              <li>
+                <Link to="/category/diamond" className="block px-4 py-2 hover:bg-gray-100">
+                  Diamond
+                </Link>
+              </li>
+              <li>
+                <Link to="/category/platinum" className="block px-4 py-2 hover:bg-gray-100">
+                  Platinum
+                </Link>
+              </li>
+              <li className="relative">
+                <span className="peer block px-4 py-2 cursor-pointer hover:bg-gray-100">
+                  Gold ▸
+                </span>
+                <ul className="absolute top-0 left-full hidden peer-hover:block hover:block bg-white shadow-lg rounded z-20 min-w-[160px]">
+                  <li>
+                    <Link to="/jewels/earrings" className="block px-4 py-2 hover:bg-gray-100">
+                      Earrings
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/jewels/bangles" className="block px-4 py-2 hover:bg-gray-100">
+                      Bangles
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/jewels/bracelets" className="block px-4 py-2 hover:bg-gray-100">
+                      Bracelets
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/products" className="block px-4 py-2 hover:bg-gray-100">
+                      Neck Aura
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/jewels/chain" className="block px-4 py-2 hover:bg-gray-100">
+                      Chain
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/jewels/anklets" className="block px-4 py-2 hover:bg-gray-100">
+                      Anklets
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/jewels/rings" className="block px-4 py-2 hover:bg-gray-100">
+                      Rings
+                    </Link>
+                  </li>
+                </ul>
+              </li>
+              <li>
+                <Link to="/category/silver" className="block px-4 py-2 hover:bg-gray-100">
+                  Silver
+                </Link>
+              </li>
+            </ul>
+          </li>
+
+          <li>
+            <Link to="/toppicks" className="hover:underline">
+              Top Picks
+            </Link>
+          </li>
+          <li>
+            <Link to="/coins" className="hover:underline">
+              Coins
+            </Link>
+          </li>
+          <li>
+            <Link to="/schemes" className="hover:underline">
+              Smart Gold Plans
+            </Link>
+          </li>
+        </ul>
+      </nav>
+    </header>
+  );
+};
+
+export default Header;
+
+*/}
+
+
+// Working code with static search functionality
+
+{/* import React, { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
 import headerBanner from "../assets/GoldBanner.jpeg";
 import { FaUser, FaShoppingCart, FaHeart, FaSearch } from "react-icons/fa";  // ✅ Added FaSearch
@@ -35,8 +436,8 @@ const Header = () => {
       navigate(`/search?query=${encodeURIComponent(searchTerm)}`);
       setShowSearch(false);
       setSearchTerm("");
-    }
-  }; */}
+
+  }; *comment closes here
   
 const handleSearch = (e) => {
   e.preventDefault();
@@ -66,7 +467,7 @@ const handleSearch = (e) => {
 
   return (
     <header className="w-full shadow-md">
-      {/* Banner Image */}
+      {/* Banner Image *
       <div className="w-full h-[400px] relative border-b-3 border-yellow-400 shadow-md ">
         <img
           src={headerBanner}
@@ -77,9 +478,9 @@ const handleSearch = (e) => {
           <h1 className="header-brand">NutMeg Bijoux</h1>
         </div>
 
-        {/* Top Right Icons */}
+        {/* Top Right Icons *
         <div className="absolute top-6 right-8 flex items-center space-x-4 text-white text-xl drop-shadow">
-          {/* Search Icon + Input */}
+          {/* Search Icon + Input *
           <div className="relative h-6 w-6">
             <button
               onClick={() => setShowSearch(!showSearch)}
@@ -112,7 +513,7 @@ const handleSearch = (e) => {
             )}
           </div>
 
-          {/* Other icons */}
+          {/* Other icons *
           <Link to="/login" title="Login">
             <FaUser />
           </Link>
@@ -132,7 +533,7 @@ const handleSearch = (e) => {
         </div>
       </div>
 
-      {/* Navigation Bar */}
+      {/* Navigation Bar *
       <nav className="bg-[#F5DEB3] flex justify-center py-4 shadow border-t-4 border-amber-300">
         <ul className="flex flex-wrap gap-6 text-[#480E1E] font-semibold text-sm items-center">
           <li>
@@ -141,7 +542,7 @@ const handleSearch = (e) => {
             </Link>
           </li>
 
-          {/* Elements of Elegance */}
+          {/* Elements of Elegance *
           <li className="group relative">
             <span className="cursor-pointer hover:underline">Elements of Elegance</span>
             <ul className="absolute top-full left-0 hidden group-hover:block bg-white shadow-lg rounded z-10 min-w-[160px]">
@@ -227,305 +628,5 @@ const handleSearch = (e) => {
 };
 
 export default Header;
-
-
-{/* import React, { useContext, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import AuthContext from "../context/AuthContext";
-import headerBanner from "../assets/GoldBanner.jpeg";
-import { FaUser, FaShoppingCart, FaHeart } from "react-icons/fa";
-import "../styles/banner.css";
-
-const Header = () => {
-  const { isLoggedIn, logout } = useContext(AuthContext);
-  const navigate = useNavigate();
-  const [showLogoutMessage, setShowLogoutMessage] = useState(false);
-
-  const handleLogout = (e) => {
-    e.preventDefault();
-    logout();
-    setShowLogoutMessage(true);
-    setTimeout(() => {
-      setShowLogoutMessage(false);
-      navigate("/login");
-    }, 3000);
-  };
-
-  return (
-    <header className="w-full shadow-md">
-      {/* Banner Image 
-      <div className="w-full h-[400px] relative border-b-3 border-yellow-400 shadow-md ">
-        <img
-          src={headerBanner}
-          alt="Banner"
-          className="w-full h-full object-cover"
-        />
-        <div className="absolute top-1/2 left-1/2 text-center transform -translate-x-1/2 -translate-y-1/2">
-          <h1 className="header-brand">NutMeg Bijoux</h1>
-        </div>
-        <div className="absolute top-6 right-8 flex space-x-4 text-white text-xl drop-shadow">
-          <Link to="/login" title="Login">
-            <FaUser />
-          </Link> 
-        
-        
-
-
-          <Link to="/wishlist" title="Wishlist">
-            <FaHeart />
-          </Link>
-          <Link to="/cart" title="Cart">
-            <FaShoppingCart />
-          </Link>
-          <Link to="/countries" title="Countries">
-            <div className="w-7 h-5 flex items-center justify-center">
-              <span role="img" aria-label="India" className="text-xl leading-none">
-                🇮🇳
-              </span>
-            </div>
-          </Link>
-        </div>
-      </div>
-
-      {/* Navigation Bar 
-      <nav className="bg-[#F5DEB3] flex justify-center py-4 shadow border-t-4 border-amber-300">
-        <ul className="flex flex-wrap gap-6 text-[#480E1E] font-semibold text-sm items-center">
-          <li>
-            <Link to="/home" className="hover:underline">
-              Home
-            </Link>
-          </li>
-
-          {/* Elements of Elegance 
-          <li className="group relative">
-            <span className="cursor-pointer hover:underline">Elements of Elegance</span>
-
-            {/* First dropdown 
-            <ul className="absolute top-full left-0 hidden group-hover:block bg-white shadow-lg rounded z-10 min-w-[160px]">
-
-            
-               <li>
-                <Link to="/category/diamond" className="block px-4 py-2 hover:bg-gray-100">
-                  Diamond
-                </Link>
-              </li>
-              <li>
-                <Link to="/category/platinum" className="block px-4 py-2 hover:bg-gray-100">
-                  Platinum
-                </Link>
-              </li>
-
-              
-              {/* Gold with nested submenu 
-              <li className="relative">
-                <span className="peer block px-4 py-2 cursor-pointer hover:bg-gray-100">
-                  Gold ▸
-                </span>
-
-                {/* Gold submenu (only opens when hovering Gold) 
-                <ul className="absolute top-0 left-full hidden peer-hover:block hover:block bg-white shadow-lg rounded z-20 min-w-[160px]">
-                  <li>
-                    <Link to="/jewels/earrings" className="block px-4 py-2 hover:bg-gray-100">
-                      Earrings
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/jewels/bangles" className="block px-4 py-2 hover:bg-gray-100">
-                      Bangles
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/jewels/bracelets" className="block px-4 py-2 hover:bg-gray-100">
-                      Bracelets
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/products" className="block px-4 py-2 hover:bg-gray-100">
-                      Neck Aura
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/jewels/chain" className="block px-4 py-2 hover:bg-gray-100">
-                      Chain
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/jewels/anklets" className="block px-4 py-2 hover:bg-gray-100">
-                      Anklets
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/jewels/rings" className="block px-4 py-2 hover:bg-gray-100">
-                      Rings
-                    </Link>
-                  </li>
-                </ul>
-              </li>
-
-              {/* Other metals 
-                            <li>
-                <Link to="/category/silver" className="block px-4 py-2 hover:bg-gray-100">
-                  Silver
-                </Link>
-              </li>
-           
-            </ul>
-          </li>
-
-          {/* Other menus 
-          <li>
-            <Link to="/toppicks" className="hover:underline">
-              Top Picks
-            </Link>
-          </li>
-          <li>
-            <Link to="/coins" className="hover:underline">
-              Coins
-            </Link>
-          </li>
-          <li>
-            <Link to="/schemes" className="hover:underline">
-              Smart Gold Plans
-            </Link>
-          </li>
-        </ul>
-      </nav>
-    </header>
-  );
-};
-
-export default Header;
 */}
 
-
-
-
-{/* import React, {useContext,useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import AuthContext, { useAuth } from '../context/AuthContext';
-//import { FaUser, FaShoppingCart, FaHeart } from "react-icons/fa";
-import headerBanner from "../assets/GoldBanner.jpeg"; // ✅ Ensure this path is correct
-import { FaUser, FaShoppingCart, FaHeart } from "react-icons/fa";
-import '../styles/banner.css';
-
-
-const Header = () => {
-  const { isLoggedIn, logout } = useContext(AuthContext);
-      const navigate = useNavigate();
-      const [showLogoutMessage, setShowLogoutMessage] = useState(false)
-      
-      const handleLogout = (e) => {
-          e.preventDefault();
-          logout();
-          setShowLogoutMessage(true)
-          setTimeout(()=>{
-            setShowLogoutMessage(false);
-            navigate("/login")
-          },3000)
-        };
-  return (
-    <header className="w-full shadow-md">
-      {/* Banner Image 
-      <div className="w-full h-[400px] relative  border-b-3 border-yellow-400 shadow-md ">
-
-        <img
-          src={headerBanner}
-          alt="Banner"
-          className="w-full h-full object-cover"
-        />
-
-        {/* Title and Subtitle Overlay 
-        <div className="absolute top-1/2 left-1/2 text-center transform -translate-x-1/2 -translate-y-1/2">
-        <h1 className="header-brand">NutMeg Bijoux</h1>       
- {/*  <h1 className="text-5xl font-semibold  text-[#480E1E] drop-shadow-lg">NutMeg Bijoux</h1>
-           <p className="text-3xl font-bold text-[#FFFFF9] drop-shadow-sm mt-2 font-[cursive] animate-slideRight opacity-0 ">where the magic begins</p> comment close
-        </div>
-
-        {/* Icons - Top Right 
-        <div className="absolute top-6 right-8 flex space-x-4 text-white text-xl drop-shadow">
-          <Link to="/login" title="Login">
-            <FaUser />
-          </Link>
-          <Link to="/wishlist" title="Wishlist">
-            <FaHeart />
-          </Link>
-          <Link to="/cart" title="Cart">
-            <FaShoppingCart />
-          </Link>
-  <Link to="/countries" title="Countries">      
-  <div className="w-7y h-5 flex items-center justify-center">
-  <span role="img" aria-label="India" className="text-xl leading-none">🇮🇳</span>
-  </div>
-</Link>
-        </div>
-      </div>
-
-      {/* Navigation Bar 
-     
-       <nav className="bg-[#F5DEB3] flex justify-center py-4 shadow border-t-4 border-amber-300">
-{/*         // <nav className="absolute bottom-15 justify-center left-1/2 transform -translate-x-1/2 w-full px-8 
-// py-2 shadow-md border-t-4 border-amber-300 z-10"> 
-        <ul className="flex flex-wrap gap-6 text-[#480E1E] font-semibold text-sm items-center">
-          <li><Link to="/home" className="hover:underline">Home</Link></li>
-         <li className="group relative">
-          <span className="cursor-pointer hover:underline">Elements of Elegance</span>
-  <span className="block px-4 py-2 cursor-pointer hover:bg-gray-100">Gold ▸</span>
-  
-  {/* Nested Jewels dropdown under Gold 
-  <ul className="absolute top-0 left-full hidden group-hover:block bg-white shadow-lg rounded z-10">
-    <li><Link to="/jewels/earrings" className="block px-4 py-2 hover:bg-gray-100">Earrings</Link></li>
-    <li><Link to="/jewels/bangles" className="block px-4 py-2 hover:bg-gray-100">Bangles</Link></li>
-    <li><Link to="/jewels/bracelets" className="block px-4 py-2 hover:bg-gray-100">Bracelets</Link></li>
-    <li><Link to="/products" className="block px-4 py-2 hover:bg-gray-100">Neck Aura</Link></li>
-    <li><Link to="/jewels/chain" className="block px-4 py-2 hover:bg-gray-100">Chain</Link></li>
-    <li><Link to="/jewels/anklets" className="block px-4 py-2 hover:bg-gray-100">Anklets</Link></li>
-    <li><Link to="/jewels/rings" className="block px-4 py-2 hover:bg-gray-100">Rings</Link></li>
-  </ul>
-</li>
-
-
-
-             <li><Link to="/category/silver" className="block px-4 py-2 hover:bg-gray-100">Silver</Link></li>
-              <li><Link to="/category/diamond" className="block px-4 py-2 hover:bg-gray-100">Diamond</Link></li>
-              <li><Link to="/category/platinum" className="block px-4 py-2 hover:bg-gray-100">Platinum</Link></li>
-            
-          </li>
-
-         {/* <li><Link to="/products" className="hover:underline">Products</Link></li> 
-          <li className="group relative">
-            <Link to="/products" className="hover:underline">Jewels</Link>
-            <ul className="absolute  top-full hidden group-hover:block bg-white shadow-lg rounded z-10">
-              <li><Link to="/jewels/earrings" className="block px-4 py-2 hover:bg-gray-100">Earrings</Link></li>
-              <li><Link to="/jewels/bangles" className="block px-4 py-2 hover:bg-gray-100">Bangles</Link></li>
-              <li><Link to="/jewels/bracelets" className="block px-4 py-2 hover:bg-gray-100">Bracelets</Link></li>
-              {/* <li><Link to="/jewels/necklaces" className="block px-4 py-2 hover:bg-gray-100">Neck Aura</Link></li> 
-                 <Link to="/products" className="block px-4 py-2 hover:bg-gray-100">
-    Neck Aura
-  </Link>
-
-              <li><Link to="/jewels/chain" className="block px-4 py-2 hover:bg-gray-100">Chain</Link></li>
-             {/* <li><Link to="/jewels/haram" className="block px-4 py-2 hover:bg-gray-100">Haram</Link></li> 
-              <li><Link to="/jewels/anklets" className="block px-4 py-2 hover:bg-gray-100">Anklets</Link></li>
-              <li><Link to="/jewels/rings" className="block px-4 py-2 hover:bg-gray-100">Rings</Link></li>
-            </ul>
-          </li>
-          <li><Link to="/toppicks" className="hover:underline">Top Picks</Link></li>
-          <li><Link to="/coins" className="hover:underline">Coins</Link></li>
-          <li><Link to="/schemes" className="hover:underline">Smart Gold Plans</Link></li> 
-           {/* {!isLoggedIn ? (               
-                        <li><Link to="/login"  className="hover:underline">Login</Link></li>
-                          ) : (
-                         <>
-                         <li><Link to="/login" onClick={handleLogout} className="hover:underline">Logout</Link></li>
-                      </>
-                         )
-} comment close here       
-        </ul>
-      </nav>
-
-    </header>
-  );
-};
-
-export default Header;
-*/}

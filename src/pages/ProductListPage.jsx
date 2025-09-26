@@ -622,7 +622,10 @@ const ProductListPage = () => {
           >
             <Link to={`/products/${product.id}`}>
               <img
-                src={productImages[product.image_url] || "https://via.placeholder.com/300"}
+                src={
+                  
+                  
+                  [product.image_url] || "https://via.placeholder.com/300"}
                 alt={product.name}
                 className="w-full h-96 object-cover rounded-lg mb-4"
               />

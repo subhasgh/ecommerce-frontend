@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect } from "react";
+{/* import React, { createContext, useState, useEffect } from "react";
 
 export const AuthContext = createContext();
 
@@ -101,4 +101,54 @@ export const AuthProvider = ({ children }) => {
       {children}
     </AuthContext.Provider>
   );
+}; export default AuthContext;
+
+// Hook to easily consume AuthContext
+export const useAuth = () => React.useContext(AuthContext);
+
+*/}
+
+// src/context/AuthContext.jsx
+import React, { createContext, useContext, useEffect, useState } from "react";
+import axios from "axios";
+
+const AuthContext = createContext();
+
+export const AuthProvider = ({ children }) => {
+  const [user, setUser] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const base = import.meta.env.VITE_API_URL || "http://localhost:5000/api/auth";
+
+  const loginComplete = async () => {
+    try {
+      const res = await axios.get(`${base}/me`, { withCredentials: true });
+      if (res.data?.success) {
+        setUser(res.data.user);
+        setIsLoggedIn(true);
+      } else {
+        setUser(null);
+        setIsLoggedIn(false);
+      }
+    } catch {
+      setUser(null);
+      setIsLoggedIn(false);
+    }
+  };
+
+  useEffect(() => {
+    loginComplete();
+  }, []);
+
+  return (
+    <AuthContext.Provider value={{ user, isLoggedIn, loginComplete }}>
+      {children}
+    </AuthContext.Provider>
+  );
 };
+
+export const useAuth = () => useContext(AuthContext);
+
+
+// ✅ Added default export so you can use `import AuthContext, { useAuth } ...`
+export default AuthContext;
